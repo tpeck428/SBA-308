@@ -101,3 +101,25 @@ const CourseInfo = {
   // console.log(result);
 
  
+  let getLearnerData = (course, ag, submission) => {
+    const result = [];
+  }
+  
+  for (let i = 0; i < LearnerSubmissions.length; i++) {
+    const submittedAtDate = new Date(
+      LearnerSubmission[i].submission.submitted_at
+    );
+    const dueAtDate = new Date(
+      AssignmentGroup.assignments[LearnerSubmission[i].assignment_id - 1].due_at
+    );
+    const currentDate = new Date();
+  
+    if (dueAtDate < currentDate) {
+      let submittedAssignment = {};
+      let learnerAssignId = LearnerSubmission[i].assignment_id;
+      let assignmentId =
+        AssignmentGroup.assignments[LearnerSubmission[i].assignment_id - 1].id;
+  
+      submittedAssignment["id"] = LearnerSubmission[i].learner_id;
+    }
+  }

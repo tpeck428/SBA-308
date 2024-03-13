@@ -95,24 +95,37 @@ function getLearnerData(course, ag, submissions) {
 
   // return result;
 }
-let getLearnerData = (course, ag, submission) => {
-  const result = [];
-}
-for (let i = 0; i < LearnerSubmissions.length; i++) {
-  const submittedAtDate = new Date(
-    LearnerSubmission[i].submission.submitted_at
-  );
-  const dueAtDate = new Date(
-    AssignmentGroup.assignments[LearnerSubmission[i].assignment_id - 1].due_at
-  );
-  const currentDate = new Date();
 
-  if (dueAtDate < currentDate) {
-    let submittedAssignment = {};
-    let learnerAssignId = LearnerSubmission[i].assignment_id;
-    let assignmentId =
-      AssignmentGroup.assignments[LearnerSubmission[i].assignment_id - 1].id;
+//Check course availability
 
-    submittedAssignment["id"] = LearnerSubmission[i].learner_id;
+function CourseAvailability(assignmentGroup, courseInfo) {
+  if (assignmentGroup.course_id === courseInfo.id) {
+    console.log('Available Course');
+    return true;
+  } else {
+    throw new Error('Error: Course ID does not match. No available course.');
   }
+}
+
+
+// get list of students by id# from LearnerSubmissions
+function getStudents(submission) {
+  try {
+    if (submission.length === 0) {
+      throw "Missing Learner ID";
+    }
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+
+  let students = [];
+  for (obj of submission) {
+    if (students.includes(obj["learner_id"])) {
+      continue; // just for grading purposes
+    } else {
+      students.push(obj["learner_id"]);
+    }
+  }
+  return students;
 }
