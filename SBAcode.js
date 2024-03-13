@@ -122,10 +122,11 @@ function getStudents(submission) {
   let students = [];
   for (obj of submission) {
     if (students.includes(obj["learner_id"])) {
-      continue; // just for grading purposes
+      continue; 
     } else {
       students.push(obj["learner_id"]);
     }
   }
   return students;
 }
+

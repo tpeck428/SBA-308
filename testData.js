@@ -50,14 +50,14 @@ const CourseInfo = {
         score: 150
       }
     },
-    // {
-    //   learner_id: 125,
-    //   assignment_id: 3,
-    //   submission: {
-    //     submitted_at: "2023-01-25",
-    //     score: 400
-    //   }
-    // },  assignment not due, information not needed within code
+    {
+      learner_id: 125,
+      assignment_id: 3,
+      submission: {
+        submitted_at: "2023-01-25",
+        score: 400
+      }
+    },  //assignment not due, information not needed within code
     {
       learner_id: 132,
       assignment_id: 1,
@@ -123,3 +123,17 @@ const CourseInfo = {
       submittedAssignment["id"] = LearnerSubmission[i].learner_id;
     }
   }
+
+
+  //Late Submissions
+
+function lateSubmission(dueAtDate, submitteddate, points_possible) {
+  if (submitteddate > dueAtDate) {
+    console.log(points_possible - (points_possible * 0.1));
+    return points_possible * 0.1; 
+  } else {
+    return 0;
+  }
+}
+
+console.log(lateSubmission());
