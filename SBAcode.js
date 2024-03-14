@@ -96,6 +96,8 @@ function getLearnerData(course, ag, submissions) {
   // return result;
 }
 
+
+
 //Check course availability
 
 function CourseAvailability(assignmentGroup, courseInfo) {
@@ -106,6 +108,7 @@ function CourseAvailability(assignmentGroup, courseInfo) {
     throw new Error('Error: Course ID does not match. No available course.');
   }
 }
+console.log(CourseAvailability);
 
 
 // get list of students by id# from LearnerSubmissions
@@ -130,3 +133,13 @@ function getStudents(submission) {
   return students;
 }
 
+//Late Submissions
+
+function lateSubmission(dueAtDate, submitteddate, points_possible) {
+  if (submitteddate > dueAtDate) {
+    console.log(points_possible - (points_possible * 0.1));
+    return points_possible * 0.1; 
+  } else {
+    return 0;
+  }
+}

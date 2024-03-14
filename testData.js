@@ -101,39 +101,88 @@ const CourseInfo = {
   // console.log(result);
 
  
-  let getLearnerData = (course, ag, submission) => {
-    const result = [];
-  }
+  // let getLearnerData = (course, ag, submission) => {
+  //   const result = [];
+  // }
   
-  for (let i = 0; i < LearnerSubmissions.length; i++) {
-    const submittedAtDate = new Date(
-      LearnerSubmission[i].submission.submitted_at
-    );
-    const dueAtDate = new Date(
-      AssignmentGroup.assignments[LearnerSubmission[i].assignment_id - 1].due_at
-    );
-    const currentDate = new Date();
-  
-    if (dueAtDate < currentDate) {
-      let submittedAssignment = {};
-      let learnerAssignId = LearnerSubmission[i].assignment_id;
-      let assignmentId =
-        AssignmentGroup.assignments[LearnerSubmission[i].assignment_id - 1].id;
-  
-      submittedAssignment["id"] = LearnerSubmission[i].learner_id;
-    }
-  }
 
+  //below : doesn't work
+//   for (let i = 0; i < LearnerSubmissions.length; i++) {
+//     const submittedAtDate = new Date(
+//       LearnerSubmissions[i].submission.submitted_at
+//     );
+//     const dueAtDate = new Date(
+//       AssignmentGroup.assignments[LearnerSubmissions[i].assignment_id - 1].due_at
+//     );
+//     const currentDate = new Date();
+  
+//     if (dueAtDate < currentDate) {
+//       let submittedAssignment = {};
+//       let learnerAssignId = LearnerSubmissions[i].assignment_id;
+//       let assignmentId =
+//         AssignmentGroup.assignments[LearnerSubmissions[i].assignment_id - 1].id;
+  
+//       submittedAssignment["id"] = LearnerSubmissions[i].learner_id;
+//     }
+//   }
+
+// console.log(getLearnerData);
 
   //Late Submissions
+// 
+// function lateSubmission(dueAtDate, submitteddate, points_possible) {
+//   if (submitteddate > dueAtDate) {
+//     console.log(points_possible - (points_possible * 0.1));
+//     return points_possible * 0.1; 
+//   } else {
+//     return 0;
+//   }
+// }
 
-function lateSubmission(dueAtDate, submitteddate, points_possible) {
-  if (submitteddate > dueAtDate) {
-    console.log(points_possible - (points_possible * 0.1));
-    return points_possible * 0.1; 
-  } else {
-    return 0;
+// console.log(lateSubmission());
+
+
+let learnerScore = LearnerSubmissions[0].submission.score
+console.log(learnerScore);
+  for (let learnerScore = 0; learnerScore < (LearnerSubmissions[learnerScore].submission.score)
+.length; learnerScore ++) {}
+
+// Calculate the weighted average and assignment scores
+const learners = {};
+const points_possible = {
+  1: 50, // Points possible for assignment 1
+  2: 150, // Points possible for assignment 2
+  3: 500, // Points possible for assignment 3
+};
+
+LearnerSubmissions.forEach((submission) => {
+  const {
+    learner_id,
+    assignment_id,
+    submission: { score },
+  } = submission;
+  if (!learners[learner_id]) {
+    learners[learner_id] = {
+      id: learner_id,
+      totalScore: 0,
+      totalWeight: 0,
+      scores: {},
+    };
   }
-}
 
-console.log(lateSubmission());
+  learners[learner_id].totalScore += score;
+  learners[learner_id].totalWeight += points_possible[assignment_id];
+  learners[learner_id].scores[assignment_id] =
+    (score / points_possible[assignment_id]) 
+});
+
+// Calculate the weighted average for each learner
+const learnerData = Object.values(learners).map((learner) => {
+  let avg = (learner.totalScore / learner.totalWeight);
+
+  return {
+    id: learner.id,
+    avg,
+    ...learner.scores,
+  };
+});
